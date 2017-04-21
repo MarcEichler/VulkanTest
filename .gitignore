@@ -1,1 +1,8 @@
 /binaries/
+Makefile
+CMakeFiles/
+CMakeCache.txt
+.cproject
+.project
+.settings
+cmake_install.cmake
