@@ -19,7 +19,6 @@ option(AUTO_LOCATE_VULKAN "Try to utomatically locate Vulkan SDK" ON)
 # Find Vulkan Path using CMake's Vulkan Module
 # This will return Boolean 'Vulkan_FOUND' indicating the status of find as success(ON) or fail(OFF).
 # Include directory path - 'Vulkan_INCLUDE_DIRS' and 'Vulkan_LIBRARY' with required libraries.
-message(${AUTO_LOCATE_VULKAN})
 if (AUTO_LOCATE_VULKAN)
     message(STATUS "Attempting to find Vulkan")
     find_package(Vulkan)
@@ -29,7 +28,9 @@ endif()
 
 if(NOT Vulkan_FOUND)
     message(STATUS "Attempting to locate Vulkan SDK using manual path...")
-    set(VULKAN_SDK "$ENV{HOME}/VulkanSDK")
+    if (NOT DEFINED VULKAN_SDK)
+        set(VULKAN_SDK "$ENV{HOME}/VulkanSDK")
+    endif()
     set(VULKAN_VERSION "1.0.46.0")
     set(VULKAN_ARCH "x86_64")
     set(VULKAN_PATH "${VULKAN_SDK}/${VULKAN_VERSION}/${VULKAN_ARCH}")
