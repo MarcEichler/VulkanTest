@@ -60,12 +60,15 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
     # Include Vulkan header files from Vulkan SDK
     include_directories(AFTER ${VULKAN_PATH}/Include)
 
-    # Link directory for vulkan-1
+    # Link directory for vulkan-1 lib
     link_directories(${VULKAN_PATH}/Bin)
 elseif(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     # Include Vulkan header files from Vulkan SDK
     include_directories(AFTER ${VULKAN_PATH}/include)
 
-    # Link directory for vulkan-1
+    # Link directory for vulkan lib
     link_directories(${VULKAN_PATH}/lib)
 endif()
+
+# Link vulkan library
+target_link_libraries(pENGuin ${VULKAN_LIB_LIST} )
