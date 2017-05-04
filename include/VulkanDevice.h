@@ -8,9 +8,9 @@
 #ifndef INCLUDE_VULKANDEVICE_H_
 #define INCLUDE_VULKANDEVICE_H_
 
+#include <vulkan/vulkan.h>
 #include <vector>
 
-#include "headers.h"
 #include "VulkanLayerAndExtension.h"
 
 using namespace std;

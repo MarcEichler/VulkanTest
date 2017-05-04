@@ -8,6 +8,7 @@
 #ifndef INCLUDE_VULKANAPPLICATION_H_
 #define INCLUDE_VULKANAPPLICATION_H_
 
+#include <vulkan/vulkan.h>
 #include <mutex>
 #include <memory>
 

@@ -8,9 +8,9 @@
 #ifndef INCLUDE_VULKANINSTANCE_H_
 #define INCLUDE_VULKANINSTANCE_H_
 
-#include <vector>
+#include <vulkan/vulkan.h>
 
-#include "headers.h"
+#include <vector>
 
 #include "VulkanLayerAndExtension.h"
 #include "VulkanInstance.h"
