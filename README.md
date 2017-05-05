@@ -1,6 +1,7 @@
 # VulkanTest
 
-Test project for the Vulkan API.
+Test project for the Vulkan API, following the book *Learning Vulkan* by 
+Parminder Singh.
 
 ## Build
 The project requires the 
