@@ -3,13 +3,19 @@
 Test project for the Vulkan API, following the book *Learning Vulkan* by 
 Parminder Singh.
 
-## Build
-The project requires the 
-[LunarG Vulkan SDK](https://www.lunarg.com/vulkan-sdk/).
-Download and install the SDK to a folder of your choice 
-(preferably ~/VulkanSDK).
+## Requirements
+The project requires the Vulkan headers:
 
-Then run
+**Arch Linux**
+Install the Vulkan development group (*vulkan-devel*)
+
+
+The project also requires the [LunarG Vulkan SDK](https://www.lunarg.com/vulkan-sdk/).
+Download and install the SDK to a folder of your choice 
+(preferably ~/VulkanSDK). 
+
+## Build
+After installing the dependencies, run
 ```
 git clone https://github.com/MarcEichler/VulkanTest.git
 cd VulkanTest
