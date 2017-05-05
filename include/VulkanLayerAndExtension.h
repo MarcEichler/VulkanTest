@@ -18,6 +18,9 @@ struct LayerProperties {
 	vector<VkExtensionProperties> extensions;
 };
 
+/**
+ * Manages a VulkanInstances' layer and extension info
+ */
 class VulkanLayerAndExtension {
 public:
 	VulkanLayerAndExtension();

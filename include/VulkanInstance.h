@@ -17,23 +17,38 @@
 
 using namespace std;
 
+/**
+ * Wrapper class for the Vulkan instance (vkInstance)
+ */
 class VulkanInstance {
 public:
 	VulkanInstance();
 	virtual ~VulkanInstance();
 
-	// Vulkan instance object
+	/**
+	 * The Vulkan instance
+	 */
 	VkInstance instance;
 
-	// Vulkan specific specific layer and extension
+	/**
+	 * The Vulkan specific layers and extensions
+	 */
 	VulkanLayerAndExtension layerExtension;
 
-	// Functions for creating and deleting the vulkan instance
+	/**
+	 * Creates the Vulkan instance
+	 * @param layerNames		The layer names
+	 * @param extensions		The extension names
+	 * @param applicationName	The application name
+	 * @return successful?
+	 */
 	VkResult createInstance(vector<const char*>& layerNames,
 							vector<const char*>& extensions,
 							const char* applicationName);
 
-	// Destroy Vulkan instance
+	/**
+	 * Destroys the current vulkan instance.
+	 */
 	void destroyInstance();
 };
 
