@@ -168,7 +168,7 @@ VkBool32 VulkanLayerAndExtension::areLayersSupported(vector<const char *> &layer
 }
 
 VkResult VulkanLayerAndExtension::createDebugReportCallback() {
-    VkResult result = VK_SUCCESS;
+    VkResult result;
 
     const VulkanApplication& vulkanApplication = *VulkanApplication::GetInstance();
     const VkInstance& vkInstance = vulkanApplication.vulkanInstance.instance;
