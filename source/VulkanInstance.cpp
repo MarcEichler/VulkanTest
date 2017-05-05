@@ -2,7 +2,7 @@
  * VulkanInstance.cpp
  *
  *  Created on: Mar 1, 2017
- *      Author: marc
+ *      Author: Marc Eichler
  */
 
 #include <VulkanInstance.h>
@@ -16,11 +16,11 @@ VulkanInstance::~VulkanInstance() {
 	// TODO Auto-generated destructor stub
 }
 
-VkResult VulkanInstance::createInstance(vector<const char*>& layers,
+VkResult VulkanInstance::createInstance(vector<const char*>& layerNames,
 		vector<const char*>& extensions, const char* applicationName) {
 	// Set the instance specific layer and extension information
-	layerExtension.appRequestedExtensionNames = layers;
-	layerExtension.appRequestedLayerNames = layers;
+	layerExtension.appRequestedExtensionNames = layerNames;
+	layerExtension.appRequestedLayerNames = layerNames;
 
 	// Define the Vulkan application structure
 	VkApplicationInfo appInfo = {};
@@ -40,8 +40,8 @@ VkResult VulkanInstance::createInstance(vector<const char*>& layers,
 	instInfo.pApplicationInfo = &appInfo;
 
 	// Specify the list of layers to be enabled
-	instInfo.enabledLayerCount = layers.size();
-	instInfo.ppEnabledLayerNames = layers.data();
+	instInfo.enabledLayerCount = layerNames.size();
+	instInfo.ppEnabledLayerNames = layerNames.data();
 
 	// Specify the list of extensions to be enabled
 	instInfo.enabledExtensionCount = extensions.size();

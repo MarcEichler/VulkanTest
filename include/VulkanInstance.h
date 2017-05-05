@@ -2,7 +2,7 @@
  * VulkanInstance.h
  *
  *  Created on: Mar 1, 2017
- *      Author: marc
+ *      Author: Marc Eichler
  */
 
 #ifndef INCLUDE_VULKANINSTANCE_H_
@@ -29,7 +29,7 @@ public:
 	VulkanLayerAndExtension layerExtension;
 
 	// Functions for creating and deleting the vulkan instance
-	VkResult createInstance(vector<const char*>& layers,
+	VkResult createInstance(vector<const char*>& layerNames,
 							vector<const char*>& extensions,
 							const char* applicationName);
 

@@ -2,7 +2,7 @@
  * VulkanLayerAndExtension.h
  *
  *  Created on: Mar 1, 2017
- *      Author: marc
+ *      Author: Marc Eichler
  */
 
 #pragma once

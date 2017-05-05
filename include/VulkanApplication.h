@@ -2,7 +2,7 @@
  * VulkanApplication.h
  *
  *  Created on: Mar 1, 2017
- *      Author: marc
+ *      Author: Marc Eichler
  */
 
 #ifndef INCLUDE_VULKANAPPLICATION_H_

@@ -2,7 +2,7 @@
  * main.cpp
  *
  *  Created on: Feb 28, 2017
- *      Author: marc
+ *      Author: Marc Eichler
  */
 
 #include <vulkan/vulkan.h>
