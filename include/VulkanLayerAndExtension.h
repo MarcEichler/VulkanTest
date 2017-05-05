@@ -13,13 +13,16 @@
 
 using namespace std;
 
+/**
+ * A Vulkan layers' and its extensions' properties
+ */
 struct LayerProperties {
 	VkLayerProperties	properties;
 	vector<VkExtensionProperties> extensions;
 };
 
 /**
- * Manages a VulkanInstances' layer and extension info
+ * \brief Manages a VulkanInstances' layer and extension info.
  */
 class VulkanLayerAndExtension {
 public:
@@ -42,19 +45,19 @@ public:
 	vector<const char*> appRequestedExtensionNames;
 
 	/**
-	 * TODO
+	 * T\brief ODO
 	 */
 	VkResult getInstanceLayerProperties();
 
 	/**
-	 * This function retrieves an extension and its properties at instance and device level.
+	 * \brief Retrieves an extension and its properties at instance and device level.
 	 * \param layerProps	The LayerProperties to be filled
 	 * \param gpu			If set, retrieves device level extensions.
 	 */
 	VkResult getExtensionProperties(LayerProperties &layerProps, const VkPhysicalDevice*const gpu = nullptr);
 
 	/**
-	 * TODO
+	 * \brief TODO
 	 */
 	VkResult getDeviceExtensionProperties(VkPhysicalDevice* gpu);
 
@@ -73,13 +76,13 @@ public:
 	VkBool32 areLayersSupported(vector<const char*> &layerNames) const;
 
     /**
-     * Create the debug report callback function
+     * \brief Create the debug report callback function
      * @return Successful?
      */
     VkResult createDebugReportCallback();
 
     /**
-     * Destroy the debug report callback function
+     * \brief Destroy the debug report callback function
      */
     void destroyDebugReportCallback();
 
