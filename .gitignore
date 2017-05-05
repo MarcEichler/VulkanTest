@@ -6,5 +6,5 @@ CMakeCache.txt
 .project
 .settings
 cmake_install.cmake
-cmake-build-debug/
+cmake-build-*
 .idea/
