@@ -42,6 +42,7 @@ public:
 	bool render();
 	void deInitialize();
 
+private:
 	VkResult createVulkanInstance(vector<const char*>& layers, vector<const char*>& extensions,
 									const char* applicationName);
 
@@ -50,9 +51,13 @@ public:
 
 	VkResult enumeratePhysicalDevices(vector<VkPhysicalDevice>& gpuList);
 
+public:
 	VulkanInstance vulkanInstance;
 
 	VulkanDevice* device;
+
+private:
+	bool debugFlag;
 };
 
 #endif /* INCLUDE_VULKANAPPLICATION_H_ */

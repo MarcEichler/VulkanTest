@@ -21,6 +21,8 @@ VulkanApplication::VulkanApplication() {
 	vulkanInstance.layerExtension.getInstanceLayerProperties();
 
 	device = nullptr;
+
+	debugFlag = true;
 }
 
 VulkanApplication::~VulkanApplication() {
@@ -35,8 +37,18 @@ VulkanApplication* VulkanApplication::GetInstance() {
 void VulkanApplication::initialize() {
 	const char* title = "Hello World!";
 
+	// Check if the provided layers are supported
+	if (debugFlag) {
+		vulkanInstance.layerExtension.areLayersSupported(layerNames);
+	}
+
 	// Create the Vulkan instance with the specified layer and extension names
 	createVulkanInstance(layerNames, instanceExtensionNames, title);
+
+	// Create the debugging report
+	if (debugFlag) {
+		vulkanInstance.layerExtension.createDebugReportCallback();
+	}
 
 	// Get the list of physical devices
 	vector<VkPhysicalDevice> gpuList;
@@ -51,6 +63,10 @@ void VulkanApplication::initialize() {
 void VulkanApplication::deInitialize() {
 	this->device->destroyDevice();
 	this->vulkanInstance.destroyInstance();
+
+	if (debugFlag) {
+		vulkanInstance.layerExtension.destroyDebugReportCallback();
+	}
 }
 
 VkResult VulkanApplication::createVulkanInstance(vector<const char*>& layers,

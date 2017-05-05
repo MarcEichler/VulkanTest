@@ -35,16 +35,23 @@ VkResult VulkanInstance::createInstance(vector<const char*>& layerNames,
 	// Define the Vulkan instance create info structure
 	VkInstanceCreateInfo instInfo = {};
 	instInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
-	instInfo.pNext = nullptr;
+	instInfo.pNext = &layerExtension.dbgReportCreateInfo;
 	instInfo.flags = 0;
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wreturn-stack-address"
+#endif
 	instInfo.pApplicationInfo = &appInfo;
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
 
 	// Specify the list of layers to be enabled
-	instInfo.enabledLayerCount = layerNames.size();
+	instInfo.enabledLayerCount = (uint32_t) layerNames.size();
 	instInfo.ppEnabledLayerNames = layerNames.data();
 
 	// Specify the list of extensions to be enabled
-	instInfo.enabledExtensionCount = extensions.size();
+	instInfo.enabledExtensionCount = (uint32_t) extensions.size();
 	instInfo.ppEnabledExtensionNames = extensions.data();
 
 	return vkCreateInstance(&instInfo, nullptr, &instance);
