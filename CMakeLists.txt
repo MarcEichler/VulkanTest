@@ -8,7 +8,7 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 # Add source files
 file(GLOB_RECURSE SOURCE_FILES source/*.cpp)
-add_executable(pENGuin ${SOURCE_FILES})
+add_executable(pENGuin ${SOURCE_FILES} include/Wrapper.h source/Wrapper.cpp)
 
 # Set library pre- and suffix
 set(CMAKE_FIND_LIBRARY_PREFIXES "lib")
