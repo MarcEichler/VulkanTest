@@ -17,29 +17,67 @@
 
 using namespace std;
 
+/**
+ * \brief A Vulkan rendering application.
+ *
+ * This class is a singleton.
+ */
 class VulkanApplication {
 private:
 	/**
-	 * Default constructor
+	 * \brief Default constructor
 	 */
 	VulkanApplication();
 
 public:
 	/**
-	 * Destructor
+	 * \brief Destructor
 	 */
 	virtual ~VulkanApplication();
 
 private:
+	/**
+	 * The singleton object
+	 */
 	static std::unique_ptr<VulkanApplication> instance;
+
+	/**
+	 * Set once the singleton was created
+	 */
 	static std::once_flag created;
 public:
+	/**
+	 * \brief Returns the singleton object.
+	 *
+	 * If the singleton was not created, creates it.
+	 * @return the singleton
+	 */
 	static VulkanApplication* GetInstance();
 
+	/**
+	 * \brief Initializes the application
+	 */
 	void initialize();
+
+	/**
+	 * \brief TODO
+	 */
 	void prepare();
+
+	/**
+	 * \brief TODO
+	 */
 	void update();
+
+	/**
+	 * \brief TODO
+	 * @return
+	 */
 	bool render();
+
+	/**
+	 * \brief De-initializes the application
+	 */
 	void deInitialize();
 
 private:
@@ -49,14 +87,31 @@ private:
 	VkResult handShakeWithDevice(VkPhysicalDevice* gpu,
 			std::vector<const char *>& layers, std::vector<const char *>& extensions);
 
+	/**
+	 * \brief Enumerates the physical devies.
+	 *
+	 * The devices will be added to gpuList.
+	 *
+	 * @param gpuList	The list
+	 * @return successful?
+	 */
 	VkResult enumeratePhysicalDevices(vector<VkPhysicalDevice>& gpuList);
 
 public:
+	/**
+	 * The Vulkan instance
+	 */
 	VulkanInstance vulkanInstance;
 
+	/**
+	 * The Vulkan device
+	 */
 	VulkanDevice* device;
 
 private:
+	/**
+	 * True for additional debug info
+	 */
 	bool debugFlag;
 };
 
