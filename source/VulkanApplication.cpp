@@ -23,10 +23,15 @@ VulkanApplication::VulkanApplication() {
 	device = nullptr;
 
 	debugFlag = true;
+
+	renderer = nullptr;
 }
 
 VulkanApplication::~VulkanApplication() {
-
+	if (renderer) {
+		delete renderer;
+		renderer = nullptr;
+	}
 }
 
 VulkanApplication* VulkanApplication::GetInstance() {
@@ -53,20 +58,30 @@ void VulkanApplication::initialize() {
 	// Get the list of physical devices
 	vector<VkPhysicalDevice> gpuList;
 	enumeratePhysicalDevices(gpuList);
+	assert(gpuList.size());
 
 	// Handshake with first device
 	if (gpuList.size() > 0) {
 		handShakeWithDevice(&gpuList[0], layerNames, deviceExtensionNames);
 	}
+
+	renderer = new VulkanRenderer(this, device);
+	renderer->initialize();
 }
 
 void VulkanApplication::deInitialize() {
-	this->device->destroyDevice();
-	this->vulkanInstance.destroyInstance();
+	renderer->destroyDepthBuffer();
+	renderer->getSwapChain()->destroySwapChain();
+	renderer->destroyCommandBuffer();
+	renderer->destroyCommandPool();
+	renderer->destroyPresentationWindow();
 
 	if (debugFlag) {
 		vulkanInstance.layerExtension.destroyDebugReportCallback();
 	}
+
+	this->device->destroyDevice();
+	this->vulkanInstance.destroyInstance();
 }
 
 VkResult VulkanApplication::createVulkanInstance(vector<const char*>& layers,
@@ -123,8 +138,7 @@ void VulkanApplication::update() {
 }
 
 bool VulkanApplication::render() {
-	// TODO
-	return false;
+	return renderer->render();
 }
 
 VkResult VulkanApplication::enumeratePhysicalDevices(

@@ -22,7 +22,7 @@ public:
     static void allocCommandBuffer(const VkDevice* device,
                                    const VkCommandPool cmdPool,
                                    VkCommandBuffer* cmdBuf,
-                                   const VkCommandBufferAllocateInfo* commandBufferInfo);
+                                   const VkCommandBufferAllocateInfo* commandBufferInfo = nullptr);
 
     /**
      * \brief Start command buffer recording

@@ -14,12 +14,15 @@
 #include <algorithm>
 
 VulkanLayerAndExtension::VulkanLayerAndExtension() {
-	// TODO Auto-generated constructor stub
-
+	dbgCreateDebugReportCallback = nullptr;
+	dbgDestroyDebugReportCallback = nullptr;
+	debugReportCallback = nullptr;
 }
 
 VulkanLayerAndExtension::~VulkanLayerAndExtension() {
-	// TODO Auto-generated destructor stub
+	dbgCreateDebugReportCallback = nullptr;
+	dbgDestroyDebugReportCallback = nullptr;
+	debugReportCallback = nullptr;
 }
 
 VkResult VulkanLayerAndExtension::getInstanceLayerProperties() {
@@ -183,7 +186,7 @@ VkResult VulkanLayerAndExtension::createDebugReportCallback() {
 
     // Get vkDestroyDebugReportCallbackEXT API
     dbgDestroyDebugReportCallback = (PFN_vkDestroyDebugReportCallbackEXT) vkGetInstanceProcAddr(vkInstance, "vkDestroyDebugReportCallbackEXT");
-    if (!dbgCreateDebugReportCallback) {
+    if (!dbgDestroyDebugReportCallback) {
         std::cout << "Error: vkGetInstanceProcAddr is unable to locate vkDestroyDebugReportCallbackEXT!\n";
         return VK_ERROR_INITIALIZATION_FAILED;
     }
@@ -212,7 +215,8 @@ VkResult VulkanLayerAndExtension::createDebugReportCallback() {
 void VulkanLayerAndExtension::destroyDebugReportCallback() {
     const VulkanApplication& vulkanApplication = *VulkanApplication::GetInstance();
     const VkInstance& vulkanInstance = vulkanApplication.vulkanInstance.instance;
-    dbgDestroyDebugReportCallback(vulkanInstance, debugReportCallback, nullptr);
+
+	dbgDestroyDebugReportCallback(vulkanInstance, debugReportCallback, nullptr);
 }
 
 VkBool32
@@ -229,7 +233,7 @@ VulkanLayerAndExtension::debugFunction(const VkFlags msgFlags, VkDebugReportObje
     else
         return VK_FALSE;
 
-    std::cout << "[VK_DEBUG_REPORT] "<<type<<": [" << layerPrefix << "] Code " << msgCode << ":" << msg << std::endl;
+    std::cout << "[VK_DEBUG_REPORT] "<<type<<": [" << layerPrefix << "] Code " << msgCode << ": " << msg << std::endl;
 
     fflush(stdout);
     return VK_TRUE;

@@ -9,19 +9,17 @@
 
 #include <assert.h>
 #include <iostream>
+#include <Header.h>
 
 VulkanDevice::VulkanDevice(VkPhysicalDevice* gpu) {
 	this->gpu = gpu;
-
-	this->queueFamilyCount = 0;
-	this->graphicsQueueFamilyIndex = 0;
-	this->queue = VkQueue();
-	this->device = nullptr;
 }
 
 VulkanDevice::~VulkanDevice() {
 }
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wreturn-stack-address"
 /**
  * Creates the VkDevice.
  *
@@ -34,29 +32,32 @@ VkResult VulkanDevice::createDevice(std::vector<const char*>& layers,
 	float queuePriorities[1] = { 0.0 };
 
 	// Create object information
-	VkDeviceQueueCreateInfo queueInfo = {};
-	queueInfo.queueFamilyIndex = graphicsQueueFamilyIndex;
-	queueInfo.sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
-	queueInfo.pQueuePriorities = queuePriorities;
+	VkDeviceQueueCreateInfo queueInfo   = {};
+	queueInfo.queueFamilyIndex          = graphicsQueueFamilyIndex;
+	queueInfo.sType                     = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
+    queueInfo.pNext                     = nullptr;
+	queueInfo.pQueuePriorities          = queuePriorities;
+    queueInfo.queueCount                = 1;
 
-	VkDeviceCreateInfo deviceInfo = {};
-	deviceInfo.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
-	deviceInfo.pNext = nullptr;
-	deviceInfo.queueCreateInfoCount = 1;
-	deviceInfo.pQueueCreateInfos = &queueInfo;
-	deviceInfo.enabledLayerCount = 0;
-	deviceInfo.ppEnabledLayerNames = nullptr;
-	deviceInfo.enabledExtensionCount = extensions.size();
-	deviceInfo.ppEnabledExtensionNames = extensions.data();
-	deviceInfo.pEnabledFeatures = nullptr;
+	VkDeviceCreateInfo deviceInfo       = {};
+	deviceInfo.sType                    = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
+	deviceInfo.pNext                    = nullptr;
+	deviceInfo.queueCreateInfoCount     = 1;
+	deviceInfo.pQueueCreateInfos        = &queueInfo;
+	deviceInfo.enabledLayerCount        = 0;
+	deviceInfo.ppEnabledLayerNames      = nullptr;
+	deviceInfo.enabledExtensionCount    = (uint32_t) extensions.size();
+	deviceInfo.ppEnabledExtensionNames  = (extensions.size()) ? extensions.data(): nullptr;
+	deviceInfo.pEnabledFeatures         = nullptr;
 
 	result = vkCreateDevice(*gpu, &deviceInfo, nullptr, &device);
 
-	cout << "*** Created logical device" << endl;
+	INFO("*** Created logical device");
 
 	assert(result == VK_SUCCESS);
 	return result;
 }
+#pragma clang diagnostic pop
 
 void VulkanDevice::destroyDevice() {
 	vkDestroyDevice(this->device, nullptr);
@@ -71,15 +72,15 @@ void VulkanDevice::getPhysicalDeviceQueueAndProperties() {
 	// Get queue family properties
 	vkGetPhysicalDeviceQueueFamilyProperties(*gpu, &queueFamilyCount, queueFamilyProperties.data());
 
-	cout << "\t*** Available queue families:" << endl;
+	INFO("\t*** Available queue families:");
 	int i = 0;
 	for (auto prop : queueFamilyProperties) {
-		cout << "\t" << i << ":" << endl;
-		cout << "\t\tGraphics: " << ((prop.queueFlags&VK_QUEUE_GRAPHICS_BIT)?"enabled":"disabled") << endl;
-		cout << "\t\tCompute: " << ((prop.queueFlags&VK_QUEUE_COMPUTE_BIT)?"enabled":"disabled") << endl;
-		cout << "\t\tTransfer: " << ((prop.queueFlags&VK_QUEUE_TRANSFER_BIT)?"enabled":"disabled") << endl;
-		cout << "\t\tSparse: " << ((prop.queueFlags&VK_QUEUE_SPARSE_BINDING_BIT)?"enabled":"disabled") << endl;
-		cout << "\t\tQueues: " << prop.queueCount << endl;
+		INFO("\t" << i << ":");
+		INFO("\t\tGraphics: " << ((prop.queueFlags&VK_QUEUE_GRAPHICS_BIT)?"enabled":"disabled"));
+		INFO("\t\tCompute: " << ((prop.queueFlags&VK_QUEUE_COMPUTE_BIT)?"enabled":"disabled"));
+		INFO("\t\tTransfer: " << ((prop.queueFlags&VK_QUEUE_TRANSFER_BIT)?"enabled":"disabled"));
+		INFO("\t\tSparse: " << ((prop.queueFlags&VK_QUEUE_SPARSE_BINDING_BIT)?"enabled":"disabled"));
+		INFO("\t\tQueues: " << prop.queueCount);
 		i++;
 	}
 }
@@ -102,4 +103,22 @@ uint32_t VulkanDevice::getGraphicsQueueHandle() {
 	return 0;
 }
 
+bool VulkanDevice::memoryTypeFromProperties(uint32_t typeBits, VkFlags requirementsMask, uint32_t *typeIndex) {
+	// Search memtypes to find first index with those properties
+	for (uint32_t i = 0; i < 32; i++) {
+		if ((typeBits & 1) == 1) {
+			// Type is available, does it match user properties?
+			if ((memoryProperties.memoryTypes[i].propertyFlags & requirementsMask) == requirementsMask) {
+				*typeIndex = i;
+				return true;
+			}
+		}
+		typeBits >>= 1;
+	}
+	// No memory types matched, return failure
+	return false;
+}
 
+void VulkanDevice::getDeviceQueue() {
+    vkGetDeviceQueue(device, graphicsQueueWithPresentIndex, 0, &queue);
+}

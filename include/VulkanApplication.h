@@ -12,10 +12,13 @@
 #include <mutex>
 #include <memory>
 
+#include "VulkanRenderer.h"
 #include "VulkanInstance.h"
 #include "VulkanDevice.h"
 
 using namespace std;
+
+class VulkanRenderer;
 
 /**
  * \brief A Vulkan rendering application.
@@ -107,6 +110,11 @@ public:
 	 * The Vulkan device
 	 */
 	VulkanDevice* device;
+
+	/**
+	 * The window renderer
+	 */
+	VulkanRenderer* renderer;
 
 private:
 	/**

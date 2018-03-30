@@ -8,7 +8,7 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 # Add source files
 file(GLOB_RECURSE SOURCE_FILES source/*.cpp)
-add_executable(pENGuin ${SOURCE_FILES} include/Wrapper.h source/Wrapper.cpp)
+add_executable(pENGuin ${SOURCE_FILES} include/Header.h)
 
 # Set library pre- and suffix
 set(CMAKE_FIND_LIBRARY_PREFIXES "lib")
@@ -51,6 +51,9 @@ endif()
 if (UNIX)
     add_definitions(-DVK_USE_PLATFORM_XCB_KHR)
     set(VULKAN_LIB_LIST "vulkan")
+
+    # Link XCB
+    target_link_libraries(pENGuin xcb)
 endif(UNIX)
 if (WIN32)
     add_definitions(-DVK_USE_PLATFORM_WIN32_KHR)
